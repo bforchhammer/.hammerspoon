@@ -32,18 +32,6 @@ hs.hotkey.bind(moveSpacesKey, '7', function() MoveWindowToSpace(7) end)
 hs.hotkey.bind(moveSpacesKey, '8', function() MoveWindowToSpace(8) end)
 hs.hotkey.bind(moveSpacesKey, '9', function() MoveWindowToSpace(9) end)
 
---spoon.SpoonInstall:andUse("MoveSpaces", {hotkeys={
---  space_left = {spacesKey, "left"},
---  space_right = {spacesKey, "right"}
---}})
-
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", {})
-
-
--- set up your windowfilter
--- switcher = hs.window.switcher.new(hs.window.filter.new():setDefaultFilter{}) -- include minimized/hidden windows, current Space only
--- hs.hotkey.bind('alt','tab','Next window',function()switcher:next()end)
--- hs.hotkey.bind('alt-shift','tab','Prev window',function()switcher:previous()end)
-
 
 hs.notify.new({title="Hammerspoon", informativeText="Configuration reloaded"}):send()
