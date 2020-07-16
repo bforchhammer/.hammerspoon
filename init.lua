@@ -14,7 +14,7 @@ spoon.SpoonInstall:andUse("MiroWindowsManager", {hotkeys={
 }})
 
 -- Menubar widget to show active spaces; updates on a timer
-local spaceiconsUpdateInterval = 2
+local spaceiconsUpdateInterval = 1
 local spaces = require("hs._asm.undocumented.spaces")
 local spaceicons = hs.menubar.new()
 
@@ -81,5 +81,21 @@ if caffeine then
     setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
 end
 
+-- Shortcut to open kitty
+hs.application.enableSpotlightForNameSearches(true)
+hs.hotkey.bind({"cmd"}, "return", function()
+    local app = hs.application.get("kitty")
+    if app then
+        if not app:mainWindow() then
+            app:selectMenuItem({"kitty", "New OS window"})
+        elseif app:isFrontmost() then
+            app:hide()
+        else
+	    app:activate()
+        end
+    else
+	hs.application.launchOrFocus("kitty")
+    end
+end)
 
 hs.notify.new({title="Hammerspoon", informativeText="Configuration reloaded"}):send()
