@@ -63,39 +63,4 @@ hs.hotkey.bind(moveSpacesKey, '9', function() MoveWindowToSpace(9) end)
 -- Play/pause music players when headphones are connected/disconnected
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", {start=true})
 
--- Simple utility to keep system alive
-local caffeine = hs.menubar.new()
-function setCaffeineDisplay(state)
-    if state then
-        caffeine:setTitle("☕")
-    else
-        caffeine:setTitle("😴")
-    end
-end
-
-function caffeineClicked()
-    setCaffeineDisplay(hs.caffeinate.toggle("displayIdle"))
-end
-if caffeine then
-    caffeine:setClickCallback(caffeineClicked)
-    setCaffeineDisplay(hs.caffeinate.get("displayIdle"))
-end
-
--- Shortcut to open kitty
-hs.application.enableSpotlightForNameSearches(true)
-hs.hotkey.bind({"cmd"}, "return", function()
-    local app = hs.application.get("kitty")
-    if app then
-        if not app:mainWindow() then
-            app:selectMenuItem({"kitty", "New OS window"})
-        elseif app:isFrontmost() then
-            app:hide()
-        else
-	    app:activate()
-        end
-    else
-	hs.application.launchOrFocus("kitty")
-    end
-end)
-
 hs.notify.new({title="Hammerspoon", informativeText="Configuration reloaded"}):send()
