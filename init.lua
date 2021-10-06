@@ -63,4 +63,7 @@ hs.hotkey.bind(moveSpacesKey, '9', function() MoveWindowToSpace(9) end)
 -- Play/pause music players when headphones are connected/disconnected
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", {start=true})
 
+local toggleGoogleMeetMic = require('google-meet-mic')
+hs.hotkey.bind({"ctrl", "cmd"}, "M", toggleGoogleMeetMic)
+
 hs.notify.new({title="Hammerspoon", informativeText="Configuration reloaded"}):send()
