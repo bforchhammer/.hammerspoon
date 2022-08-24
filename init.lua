@@ -6,11 +6,11 @@ hs.window.animationDuration = 0.1
 -- Keyboard shortcuts for window sizing
 local hyper = {"ctrl", "alt", "cmd"}
 spoon.SpoonInstall:andUse("MiroWindowsManager", {hotkeys={
-  up = {hyper, "up"},
-  right = {hyper, "right"},
-  down = {hyper, "down"},
-  left = {hyper, "left"},
-  fullscreen = {hyper, "f"}
+    up = {hyper, "up"},
+    right = {hyper, "right"},
+    down = {hyper, "down"},
+    left = {hyper, "left"},
+    fullscreen = {hyper, "f"}
 }})
 
 -- Menubar widget to show active spaces; updates on a timer
@@ -21,14 +21,14 @@ function UpdateSpacesIcon()
     local activeSpaces = hs.spaces.activeSpaces()
     local icons = ""
     for screenId, screenSpaces in pairs(hs.spaces.allSpaces()) do
-	for spaceIdx, spaceId in pairs(screenSpaces) do
-	    if hs.fnutils.contains(activeSpaces, spaceId) then
-		icons = icons .. "🔳"
+        for spaceIdx, spaceId in pairs(screenSpaces) do
+            if hs.fnutils.contains(activeSpaces, spaceId) then
+                icons = icons .. "🔳"
             else
                 icons = icons .. "⬜"
             end
-	end
-	icons = icons .. " "
+        end
+        icons = icons .. " "
     end
     spaceicons:setTitle(icons)
 end
