@@ -13,32 +13,41 @@ spoon.SpoonInstall:andUse("MiroWindowsManager", {hotkeys={
     fullscreen = {hyper, "f"}
 }})
 
+
 -- Menubar widget to show active spaces; updates on a timer
-local spaceiconsUpdateInterval = 1
 local spaceicons = hs.menubar.new()
+local spaceSymbols = {'①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'}
+local activeSpaceSymbols = {'➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑', '➒'}
 
 function UpdateSpacesIcon()
     local activeSpaces = hs.spaces.activeSpaces()
     local icons = ""
+    local idx = 0
     for screenId, screenSpaces in pairs(hs.spaces.allSpaces()) do
         for spaceIdx, spaceId in pairs(screenSpaces) do
+            idx = idx + 1
             if hs.fnutils.contains(activeSpaces, spaceId) then
-                icons = icons .. "🔳"
+                icons = icons .. activeSpaceSymbols[idx].. " " -- "🔳"
             else
-                icons = icons .. "⬜"
+                icons = icons .. spaceSymbols[idx] .. " " -- "⬜"
             end
         end
         icons = icons .. " "
     end
-    spaceicons:setTitle(icons)
+    local styledtext = hs.styledtext.new(icons, {font={size=21}, paragraphStyle={lineHeightMultiple=0.8}})
+    spaceicons:setTitle(styledtext)
 end
-local UpdateSpacesIconTimer = hs.timer.doEvery(spaceiconsUpdateInterval, function() UpdateSpacesIcon() end)
-UpdateSpacesIconTimer:fire()
+
+-- Trigger once for initial paint
+UpdateSpacesIcon()
+
+-- Trigger when clicked on
 spaceicons:setClickCallback(UpdateSpacesIcon)
 
-function GotoSpace(num)
-    hs.eventtap.keyStroke({"ctrl"}, tostring(num), 0)
-end
+-- Setup spaces watcher to automatically trigger when active space is changed
+local watcher = hs.spaces.watcher.new(UpdateSpacesIcon)
+watcher:start()
+
 
 -- Keyboard shortcuts to move windows between screens
 function MoveWindowToSpace(sp)
@@ -48,6 +57,10 @@ function MoveWindowToSpace(sp)
     hs.spaces.moveWindowToSpace(win, spaceID)
     UpdateSpacesIconTimer:fire()
     hs.eventtap.keyStroke({"ctrl"}, sp)
+end
+
+function GotoSpace(num)
+    hs.eventtap.keyStroke({"ctrl"}, tostring(num), 0)
 end
 
 local moveSpacesKey = {"ctrl", "shift"}
@@ -60,6 +73,7 @@ hs.hotkey.bind(moveSpacesKey, '6', function() MoveWindowToSpace(6) end, function
 hs.hotkey.bind(moveSpacesKey, '7', function() MoveWindowToSpace(7) end, function() GotoSpace(7) end)
 hs.hotkey.bind(moveSpacesKey, '8', function() MoveWindowToSpace(8) end, function() GotoSpace(8) end)
 hs.hotkey.bind(moveSpacesKey, '9', function() MoveWindowToSpace(9) end, function() GotoSpace(9) end)
+
 
 -- Play/pause music players when headphones are connected/disconnected
 spoon.SpoonInstall:andUse("HeadphoneAutoPause", {start=true})
