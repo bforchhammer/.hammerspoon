@@ -14,7 +14,7 @@ spoon.SpoonInstall:andUse("MiroWindowsManager", {hotkeys={
 }})
 
 
--- Menubar widget to show active spaces; updates on a timer
+-- Menubar widget to show active spaces
 local spaceicons = hs.menubar.new()
 local spaceSymbols = {'①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'}
 local activeSpaceSymbols = {'➊', '➋', '➌', '➍', '➎', '➏', '➐', '➑', '➒'}
@@ -27,9 +27,9 @@ function UpdateSpacesIcon()
         for spaceIdx, spaceId in pairs(screenSpaces) do
             idx = idx + 1
             if hs.fnutils.contains(activeSpaces, spaceId) then
-                icons = icons .. activeSpaceSymbols[idx].. " " -- "🔳"
+                icons = icons .. activeSpaceSymbols[idx].. " "
             else
-                icons = icons .. spaceSymbols[idx] .. " " -- "⬜"
+                icons = icons .. spaceSymbols[idx] .. " "
             end
         end
         icons = icons .. " "
